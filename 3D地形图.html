@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D地形图-汪Sir出品</title>
+</head>
+<body>
+  <div id="WbBox"></div>
+</body>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.74/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.74/Build/Cesium/Cesium.js"></script>
+<script>
+  // import * as Cesium from 'Cesium'
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMjY0YTgyYS1iMzY2LTQyNTEtOWYzMi1kNTk3ZjUzNzgwN2YiLCJpZCI6ODcyNDMsImlhdCI6MTY0ODQzNDYzNH0.GdT_hXTc6pwpkdpIFPkJ8aSFYWELKGSCotYsRzOIlF0';
+  let viewer = new Cesium.Viewer('WbBox', {
+		terrainProvider: Cesium.createWorldTerrain(), // 3d地形
+      animation: false,
+      baseLayerPicker: false,
+      geocoder: true,
+      timeline: false,
+      sceneModePicker: true,
+      navigationHelpButton: false,
+      useDefaultRenderLoop: true,
+      showRenderLoopErrors: true,
+      fullscreenButton: true,
+      fullscreenElement: 'map3d',
+      infoBox: true,
+      mapProjection: new Cesium.WebMercatorProjection(),
+      imageryProvider: new Cesium.WebMapTileServiceImageryProvider({
+         url: `http://t${~~(Math.random() * 6)}.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles&tk=1fce32479ffd3e8c69f9eb81e44183b4`,
+         layer: "tdtBasicLayer",
+         style: "default",
+         format: "image/jpeg",
+         tileMatrixSetID: "GoogleMapsCompatible",
+         show: false,
+         maximumLevel: 18
+      })
+   });
+  let cia = new Cesium.WebMapTileServiceImageryProvider({   //调用影响中文注记服务
+		url: `http://t${~~(Math.random() * 6)}.tianditu.gov.cn/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=1fce32479ffd3e8c69f9eb81e44183b4`,
+		layer: "cia_w",
+		style: "default",
+		format: "tiles",
+		tileMatrixSetID: "GoogleMapsCompatible",
+		minimumLevel: 0,
+		maximumLevel: 18,
+   })
+	viewer.imageryLayers.addImageryProvider(cia)//添加到cesium图层上
+</script>
+</html>
